@@ -1,4 +1,3 @@
-
 from flask import Blueprint, request
 from services.consumer_service import (
     get_all_consumers, 
