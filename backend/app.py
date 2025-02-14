@@ -9,6 +9,9 @@ from routes.service_provider_routes import service_provider_bp
 from routes.image_routes import image_bp  # Import the image route
 from routes.auth_routes import auth_bp
 from routes.otp_routes import otp_bp
+from routes.offer_routes import offer_bp
+from routes.request_routes import request_bp
+
 
 app = Flask(__name__)
 app.config.from_object(Config)  
@@ -37,9 +40,13 @@ except Exception as e:
 app.register_blueprint(consumer_bp, url_prefix='/consumer')
 # Register consumer service- providers routes
 app.register_blueprint(service_provider_bp, url_prefix='/service_provider')
+# Register consumer reuest routes
+app.register_blueprint(request_bp, url_prefix='/request')
+# Register consumer sending offer routes
+app.register_blueprint(offer_bp, url_prefix='/offer')
 # Register image routes
 app.register_blueprint(image_bp, url_prefix='/image')
-# Register routes for register and login for both consumer and service_provider
+
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
 app.register_blueprint(otp_bp, url_prefix='/otp')
