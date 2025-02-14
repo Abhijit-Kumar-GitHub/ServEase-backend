@@ -9,3 +9,4 @@ config.py
 .bcvenv
 
 encoded-firebase-cred.base64
+ubuntuenv
