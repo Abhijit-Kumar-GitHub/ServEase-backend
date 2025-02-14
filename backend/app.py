@@ -15,9 +15,7 @@ from routes.request_routes import request_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)  
-@app.route("/")
-def home():
-    return "Flask app is working!"
+
 
 # Decode the environment variable and create the credentials file --->> add it in try catch block later
 firebase_credentials_path = "firebase-cred.json"
