@@ -14,17 +14,16 @@ def create_request(data, file=None):
     try:
         db = firestore.client()
         request_id = str(uuid.uuid4())
-        
         # Handle image upload if file is provided
         image_url = None
         if file:
             image_url = upload_image(file)
-
         # Build request data
         request_data = {
             'id': request_id,
             'consumer_id': data['consumer_id'],
             'service_provider_id': None,
+            'title': data['title'],
             'description': data['description'],
             'category': data['category'],
             'image_url': image_url if image_url else '',
@@ -42,12 +41,10 @@ def create_request(data, file=None):
 
         # Save request to Firestore
         db.collection('requests').document(request_id).set(request_data)
-        return jsonify({"success": True, "message": "Request created successfully", "request_id": request_id}), 201
+        return jsonify({"success": True, "message": "Request created successfully", "data": request_data}), 201
 
     except Exception as e:
-        return jsonify({"success": False, "message": str(e)}), 500
-
-
+        return jsonify({"success": False, "message": str(e), "request_data": request_data}), 500
 
 # View Open Requests by Category (for Service Providers)
 def view_open_requests(category):
@@ -128,20 +125,21 @@ def update_request(request_id, data):
                 update_data['service_provider_id'] = data['service_provider_id']
             if 'status' in data:
                 update_data['status'] = data['status']
+            if 'title' in data:
+                update_data['title'] = data['description']
             if 'description' in data:
                 update_data['description'] = data['description']
             if 'image_url' in data:
                 update_data['image_url'] = data['image_url']
             if 'category' in data and data['category'] in VALID_CATEGORIES:
                 update_data['category'] = data['category']
-
             update_data['updated_at'] = datetime.now()
             request_ref.update(update_data)
             return jsonify({"success": True, "message": "Request updated successfully"}), 200
         else:
             return jsonify({"success": False, "message": "Request not found"}), 404
     except Exception as e:
-        return jsonify({"success": False, "message": str(e)}), 500
+        return jsonify({"success": False, "message": str(e), "request_data": update_data }), 500
 
 
 # Delete Request
