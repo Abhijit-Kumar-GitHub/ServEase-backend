@@ -8,7 +8,7 @@ from routes.consumer_routes import consumer_bp
 from routes.service_provider_routes import service_provider_bp
 from routes.image_routes import image_bp  # Import the image route
 from routes.auth_routes import auth_bp
-# from routes.otp_routes import otp_bp
+from routes.otp_routes import otp_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)  
@@ -42,8 +42,7 @@ app.register_blueprint(image_bp, url_prefix='/image')
 # Register routes for register and login for both consumer and service_provider
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
-# app.register_blueprint(otp_bp, url_prefix='/otp')
-
+app.register_blueprint(otp_bp, url_prefix='/otp')
 
 
 if __name__ == '__main__':

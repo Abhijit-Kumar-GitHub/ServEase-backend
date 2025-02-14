@@ -76,20 +76,33 @@ def register_user(data, user_type):
     return user_data  # Return registered user data
 
 
-def login_user(email, password, user_type):
+def login_user(email, password):
     """Login and return user data along with a JWT token."""
     db = firestore.client()
-    collection = 'consumers' if user_type == "0" else 'service_providers'
-    users_ref = db.collection(collection).where('email', '==', email).stream()
     user = None
-    for doc in users_ref:
+    user_type = None
+
+    # Check in the 'consumer' collection
+    consumer_ref = db.collection("consumers").where('email', '==', email).stream()
+    for doc in consumer_ref:
         user = doc.to_dict()
+        user_type = "0"
         break
+
+    # If not found in 'consumer', check in 'service_provider'
+    if not user:
+        service_provider_ref = db.collection("service_providers").where('email', '==', email).stream()
+        for doc in service_provider_ref:
+            user = doc.to_dict()
+            user_type = "1"
+            break
+
     if not user or not bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
         raise ValueError("Invalid email or password.")
 
+    # Remove the password from the user data
     del user['password']
-
+    
     # Generate JWT token
     token = jwt.encode(
         {

@@ -19,8 +19,8 @@ def register(user_type):
         return jsonify({"success": False, "message": str(e)}), 500
 
 
-@auth_bp.route('/login/<user_type>', methods=['POST'])
-def login(user_type):
+@auth_bp.route('/login', methods=['POST'])
+def login():
     """Login a consumer or service provider."""
     try:
         data = request.get_json()
@@ -30,7 +30,7 @@ def login(user_type):
         if not email or not password:
             return jsonify({"success": False, "message": "Email and password are required"}), 400
         
-        user_data = login_user(email, password, user_type)
+        user_data = login_user(email, password)
         return jsonify({"success": True, "message": "Login successful", "user_data": user_data}), 200
 
     except ValueError as e:
