@@ -4,8 +4,8 @@ import bcrypt
 import jwt  # JSON Web Token
 import uuid
 import os, requests
-from dotenv import load_dotenv
 from flask import jsonify, Blueprint
+from dotenv import load_dotenv
 load_dotenv()
 JWT_SECRET = os.getenv('JWT_SECRET', 'your_secret_key')
 JWT_EXPIRATION_TIME = int(os.getenv('JWT_EXPIRATION_TIME', 60))  # Token valid for 60 minutes

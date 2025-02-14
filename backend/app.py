@@ -11,6 +11,8 @@ from routes.auth_routes import auth_bp
 from routes.otp_routes import otp_bp
 from routes.offer_routes import offer_bp
 from routes.request_routes import request_bp
+from routes.chatbot_routes import chatbot_bp, init_chatbot_routes # Import the chatbot routes and the initialization function
+from services.chatbot_service import GeminiService 
 
 
 app = Flask(__name__)
@@ -41,7 +43,7 @@ except Exception as e:
 app.register_blueprint(consumer_bp, url_prefix='/consumer')
 # Register consumer service- providers routes
 app.register_blueprint(service_provider_bp, url_prefix='/service_provider')
-# Register consumer reuest routes
+# Register consumer request routes
 app.register_blueprint(request_bp, url_prefix='/request')
 # Register consumer sending offer routes
 app.register_blueprint(offer_bp, url_prefix='/offer')
@@ -52,6 +54,12 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 
 app.register_blueprint(otp_bp, url_prefix='/otp')
 
+
+# Initialize the Gemini service *once* here
+gemini_service = GeminiService()
+
+# Initialize and register the chatbot routes, passing in the Gemini service
+app.register_blueprint(init_chatbot_routes(gemini_service), url_prefix='/chatbot')
 
 if __name__ == '__main__':
     app.run(debug=True)

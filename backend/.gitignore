@@ -10,3 +10,6 @@ config.py
 
 encoded-firebase-cred.base64
 ubuntuenv
+
+__pycache__/
+*.pyc
