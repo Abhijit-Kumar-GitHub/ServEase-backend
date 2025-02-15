@@ -14,10 +14,24 @@ from routes.request_routes import request_bp
 from routes.chatbot_routes import chatbot_bp, init_chatbot_routes # Import the chatbot routes and the initialization function
 from services.chatbot_service import GeminiService 
 
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+
+
+
 
 app = Flask(__name__)
 app.config.from_object(Config)  
 
+
+# Enable CORS for all routes (useful for debugging purposes)
+CORS(app)
+
+# Example route to test your Flask app
+@app.route("/")
+def home():
+    return jsonify({"message": "Welcome to your Flask backend!"})
 
 # Decode the environment variable and create the credentials file --->> add it in try catch block later
 firebase_credentials_path = "firebase-cred.json"
