@@ -1,9 +1,8 @@
 from flask import jsonify
 from firebase_admin import firestore
 
-
 VALID_CATEGORIES = [
-    "Plumber", "Electrician", "Carpenter", "Painter", "Mechanic",
+    "Plumbing", "Electrician", "Carpenter", "Painter", "Mechanic",
     "Gardener", "Cleaner", "IT Support"
 ]
 

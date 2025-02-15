@@ -18,6 +18,8 @@ def create():
     response = create_request(data, file)
     return response  # Assuming create_request already returns a Flask response (jsonify)
 
+
+
 # Route to get all requests
 @request_bp.route('/all', methods=['GET'])
 def get_all():

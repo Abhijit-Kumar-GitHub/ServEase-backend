@@ -11,7 +11,7 @@ JWT_SECRET = os.getenv('JWT_SECRET', 'your_secret_key')
 JWT_EXPIRATION_TIME = int(os.getenv('JWT_EXPIRATION_TIME', 60))  # Token valid for 60 minutes
 # Hard-coded list of valid categories. might add other categories later as  needed
 VALID_CATEGORIES = [
-    "Plumber", "Electrician", "Carpenter", "Painter", "Mechanic",
+    "Plumbing", "Electrician", "Carpenter", "Painter", "Mechanic",
     "Gardener", "Cleaner", "IT Support"
 ]
 BREVO_API_KEY = os.getenv('BREVO_API_KEY')

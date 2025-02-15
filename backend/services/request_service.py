@@ -6,7 +6,7 @@ from services.image_service import upload_image
 
 # Hardcoded list of request categories
 VALID_CATEGORIES = [
-    "Plumber", "Electrician", "Carpenter", "Painter", "Mechanic",
+    "Plumbing", "Electrician", "Carpenter", "Painter", "Mechanic",
     "Gardener", "Cleaner", "IT Support"
 ]
 
@@ -31,20 +31,17 @@ def create_request(data, file=None):
             'created_at': datetime.now(),
             'updated_at': datetime.now()
         }
-
         # Debugging: Log received category
         print(f"Received category: {request_data['category']}")
-
         # Validate category (case-insensitive)
         if request_data['category'].strip().lower() not in [c.lower() for c in VALID_CATEGORIES]:
             return jsonify({"success": False, "message": "Invalid category"}), 400
-
         # Save request to Firestore
         db.collection('requests').document(request_id).set(request_data)
         return jsonify({"success": True, "message": "Request created successfully", "data": request_data}), 201
 
     except Exception as e:
-        return jsonify({"success": False, "message": str(e), "request_data": request_data}), 500
+        return jsonify({"success": False, "message": str(e)}), 500
 
 # View Open Requests by Category (for Service Providers)
 def view_open_requests(category):

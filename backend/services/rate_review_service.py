@@ -1,3 +1,4 @@
+
 from flask import jsonify
 import uuid
 from datetime import datetime
@@ -8,21 +9,36 @@ def create_review(data):
         db = firestore.client()
         review_id = str(uuid.uuid4())
 
-        # Validate rating (must be a number from 1 to 10)
+        # Extract required fields
+        consumer_id = data.get('consumer_id')
+        service_provider_id = data.get('service_provider_id')
         rating = data.get('rating')
+        review_text = data.get('review')
+        # request_id=data.get('request_id')
+
+        # Validate user existence
+        consumer_ref = db.collection('users').document(consumer_id).get()
+        provider_ref = db.collection('service_providers').document(service_provider_id).get()
+
+        if not consumer_ref.exists:
+            return jsonify({"success": False, "message": "Invalid consumer ID"}), 400
+        
+        if not provider_ref.exists:
+            return jsonify({"success": False, "message": "Invalid service provider ID"}), 400
+
+        # Validate rating (must be a number from 1 to 10)
         if not isinstance(rating, int) or rating < 1 or rating > 10:
             return jsonify({"success": False, "message": "Rating must be an integer between 1 and 10"}), 400
         
         # Validate review (must be a string)
-        review_text = data.get('review')
         if not isinstance(review_text, str) or not review_text.strip():
             return jsonify({"success": False, "message": "Review must be a non-empty string"}), 400
 
         # Build review data
         review_data = {
             'id': review_id,
-            'consumer_id': data['consumer_id'],
-            'service_provider_id': data['service_provider_id'],
+            'consumer_id': consumer_id,
+            'service_provider_id': service_provider_id,
             'review': review_text.strip(),
             'category': data['category'],
             'rating': rating,
@@ -37,6 +53,7 @@ def create_review(data):
 
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
+
 
 
 def get_all_reviews():
@@ -107,5 +124,17 @@ def delete_review(review_id):
         review_ref.delete()
 
         return jsonify({"success": True, "message": "Review deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+def get_reviews_by_consumer(consumer_id):
+    """Fetch all reviews filed by a specific consumer."""
+    try:
+        db = firestore.client()
+        reviews_ref = db.collection('rate_review').where('consumer_id', '==', consumer_id)
+        docs = reviews_ref.stream()
+        reviews = [doc.to_dict() for doc in docs]
+
+        return jsonify({"success": True, "reviews": reviews}), 200
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
