@@ -19,11 +19,8 @@ def create_offer_service(request_id, data):
         'created_at': datetime.now()
     }
     
-
     db.collection('requests').document(request_id).collection('offers').document(offer_id).set(offer_data)
     return offer_id
-
-
 
 
 def get_offers_service(request_id):

@@ -11,6 +11,7 @@ from routes.auth_routes import auth_bp
 from routes.otp_routes import otp_bp
 from routes.offer_routes import offer_bp
 from routes.request_routes import request_bp
+from routes.rate_review_routes import review_bp
 from routes.chatbot_routes import chatbot_bp, init_chatbot_routes # Import the chatbot routes and the initialization function
 from services.chatbot_service import GeminiService 
 
@@ -68,6 +69,9 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 
 app.register_blueprint(otp_bp, url_prefix='/otp')
 
+
+
+app.register_blueprint(review_bp, url_prefix='/rate-review')
 
 # Initialize the Gemini service *once* here
 gemini_service = GeminiService()
