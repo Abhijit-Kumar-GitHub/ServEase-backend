@@ -11,6 +11,7 @@ from routes.auth_routes import auth_bp
 from routes.otp_routes import otp_bp
 from routes.offer_routes import offer_bp
 from routes.request_routes import request_bp
+from routes.rate_review_routes import review_bp
 
 
 app = Flask(__name__)
@@ -52,6 +53,9 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 
 app.register_blueprint(otp_bp, url_prefix='/otp')
 
+app.register_blueprint(otp_bp, url_prefix='/otp')
+
+app.register_blueprint(review_bp, url_prefix='/rate-review')
 
 if __name__ == '__main__':
     app.run(debug=True)

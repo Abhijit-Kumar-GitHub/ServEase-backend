@@ -5,6 +5,7 @@ firebase-cred.json
 
 config.py
 
+__pycache__/
 
 .bcvenv
 
