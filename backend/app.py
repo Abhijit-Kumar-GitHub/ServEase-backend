@@ -61,5 +61,5 @@ gemini_service = GeminiService()
 # Initialize and register the chatbot routes, passing in the Gemini service
 app.register_blueprint(init_chatbot_routes(gemini_service), url_prefix='/chatbot')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
