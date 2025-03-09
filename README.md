@@ -18,7 +18,7 @@
 
 ##  Tech Stack
 
-### **Frontend**  
+### **Frontend**  (on a different repo: https://github.com/Abhijit-Kumar-GitHub/Serv-Ease-frontend)
 - React Native: Cross-platform mobile app development with near-native performance.
 
 ### **Backend**  
